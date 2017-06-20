@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-
 MongoClient.connect(url, function(err, db) {
 
   var collection = db.collection('contactrock');
@@ -26,6 +25,13 @@ MongoClient.connect(url, function(err, db) {
 
         });
   });
+
+  app.get("/contact", function(req, res){
+    collection.find({}).toArray(function(err,results){
+      res.render("contact",{comments:results});
+    });
+  });
+
 });
 
 app.listen(9999, function () {
